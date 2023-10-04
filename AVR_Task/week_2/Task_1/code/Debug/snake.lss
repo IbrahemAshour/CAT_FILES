@@ -1,0 +1,241 @@
+
+snake.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000018c  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         0000000a  00800060  0000018c  00000200  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .stab         0000042c  00000000  00000000  0000020c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  3 .stabstr      0000073f  00000000  00000000  00000638  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   8:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  10:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  14:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  18:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  1c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  20:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  24:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  28:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  2c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  30:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  34:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  38:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  3c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  40:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  44:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  48:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  4c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  50:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	ec e8       	ldi	r30, 0x8C	; 140
+  68:	f1 e0       	ldi	r31, 0x01	; 1
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <.do_copy_data_start>
+
+0000006c <.do_copy_data_loop>:
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+
+00000070 <.do_copy_data_start>:
+  70:	aa 36       	cpi	r26, 0x6A	; 106
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <.do_copy_data_loop>
+  76:	0e 94 41 00 	call	0x82	; 0x82 <main>
+  7a:	0c 94 c4 00 	jmp	0x188	; 0x188 <_exit>
+
+0000007e <__bad_interrupt>:
+  7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000082 <main>:
+
+#define DDRD   *((volatile u8*)0x31)
+#define PORTD  *((volatile u8*)0x32)
+#define PIND   *((volatile u8*)0x30)
+int main()
+{
+  82:	df 93       	push	r29
+  84:	cf 93       	push	r28
+  86:	cd b7       	in	r28, 0x3d	; 61
+  88:	de b7       	in	r29, 0x3e	; 62
+  8a:	63 97       	sbiw	r28, 0x13	; 19
+  8c:	0f b6       	in	r0, 0x3f	; 63
+  8e:	f8 94       	cli
+  90:	de bf       	out	0x3e, r29	; 62
+  92:	0f be       	out	0x3f, r0	; 63
+  94:	cd bf       	out	0x3d, r28	; 61
+
+	DDRA =0;
+  96:	ea e3       	ldi	r30, 0x3A	; 58
+  98:	f0 e0       	ldi	r31, 0x00	; 0
+  9a:	10 82       	st	Z, r1
+	PORTA=0XFF;
+  9c:	eb e3       	ldi	r30, 0x3B	; 59
+  9e:	f0 e0       	ldi	r31, 0x00	; 0
+  a0:	8f ef       	ldi	r24, 0xFF	; 255
+  a2:	80 83       	st	Z, r24
+	DDRB=0xff;
+  a4:	e7 e3       	ldi	r30, 0x37	; 55
+  a6:	f0 e0       	ldi	r31, 0x00	; 0
+  a8:	8f ef       	ldi	r24, 0xFF	; 255
+  aa:	80 83       	st	Z, r24
+	PORTB=0;
+  ac:	e8 e3       	ldi	r30, 0x38	; 56
+  ae:	f0 e0       	ldi	r31, 0x00	; 0
+  b0:	10 82       	st	Z, r1
+
+	u8 Segment[]={0x3F,0x06,0x5B,
+				  0x4F,0x66,0x6D,0x7D,
+				  0x07,0x7F,0x6F
+				 },Ones,Deci,thu,PIN_Value;
+  b2:	ce 01       	movw	r24, r28
+  b4:	05 96       	adiw	r24, 0x05	; 5
+  b6:	98 8b       	std	Y+16, r25	; 0x10
+  b8:	8f 87       	std	Y+15, r24	; 0x0f
+  ba:	e0 e6       	ldi	r30, 0x60	; 96
+  bc:	f0 e0       	ldi	r31, 0x00	; 0
+  be:	fa 8b       	std	Y+18, r31	; 0x12
+  c0:	e9 8b       	std	Y+17, r30	; 0x11
+  c2:	fa e0       	ldi	r31, 0x0A	; 10
+  c4:	fb 8b       	std	Y+19, r31	; 0x13
+  c6:	e9 89       	ldd	r30, Y+17	; 0x11
+  c8:	fa 89       	ldd	r31, Y+18	; 0x12
+  ca:	00 80       	ld	r0, Z
+  cc:	89 89       	ldd	r24, Y+17	; 0x11
+  ce:	9a 89       	ldd	r25, Y+18	; 0x12
+  d0:	01 96       	adiw	r24, 0x01	; 1
+  d2:	9a 8b       	std	Y+18, r25	; 0x12
+  d4:	89 8b       	std	Y+17, r24	; 0x11
+  d6:	ef 85       	ldd	r30, Y+15	; 0x0f
+  d8:	f8 89       	ldd	r31, Y+16	; 0x10
+  da:	00 82       	st	Z, r0
+  dc:	8f 85       	ldd	r24, Y+15	; 0x0f
+  de:	98 89       	ldd	r25, Y+16	; 0x10
+  e0:	01 96       	adiw	r24, 0x01	; 1
+  e2:	98 8b       	std	Y+16, r25	; 0x10
+  e4:	8f 87       	std	Y+15, r24	; 0x0f
+  e6:	9b 89       	ldd	r25, Y+19	; 0x13
+  e8:	91 50       	subi	r25, 0x01	; 1
+  ea:	9b 8b       	std	Y+19, r25	; 0x13
+  ec:	eb 89       	ldd	r30, Y+19	; 0x13
+  ee:	ee 23       	and	r30, r30
+  f0:	51 f7       	brne	.-44     	; 0xc6 <main+0x44>
+
+	while(1)
+	{
+		if(((PINA>>0)&1)==0)
+  f2:	e9 e3       	ldi	r30, 0x39	; 57
+  f4:	f0 e0       	ldi	r31, 0x00	; 0
+  f6:	80 81       	ld	r24, Z
+  f8:	88 2f       	mov	r24, r24
+  fa:	90 e0       	ldi	r25, 0x00	; 0
+  fc:	81 70       	andi	r24, 0x01	; 1
+  fe:	90 70       	andi	r25, 0x00	; 0
+ 100:	00 97       	sbiw	r24, 0x00	; 0
+ 102:	79 f4       	brne	.+30     	; 0x122 <main+0xa0>
+		{
+			PORTB|=(1<<0);
+ 104:	a8 e3       	ldi	r26, 0x38	; 56
+ 106:	b0 e0       	ldi	r27, 0x00	; 0
+ 108:	e8 e3       	ldi	r30, 0x38	; 56
+ 10a:	f0 e0       	ldi	r31, 0x00	; 0
+ 10c:	80 81       	ld	r24, Z
+ 10e:	81 60       	ori	r24, 0x01	; 1
+ 110:	8c 93       	st	X, r24
+			PORTB &=~(1<<1);
+ 112:	a8 e3       	ldi	r26, 0x38	; 56
+ 114:	b0 e0       	ldi	r27, 0x00	; 0
+ 116:	e8 e3       	ldi	r30, 0x38	; 56
+ 118:	f0 e0       	ldi	r31, 0x00	; 0
+ 11a:	80 81       	ld	r24, Z
+ 11c:	8d 7f       	andi	r24, 0xFD	; 253
+ 11e:	8c 93       	st	X, r24
+ 120:	e8 cf       	rjmp	.-48     	; 0xf2 <main+0x70>
+
+		}
+		else if(((PINA>>1)&1)==0)
+ 122:	e9 e3       	ldi	r30, 0x39	; 57
+ 124:	f0 e0       	ldi	r31, 0x00	; 0
+ 126:	80 81       	ld	r24, Z
+ 128:	86 95       	lsr	r24
+ 12a:	88 2f       	mov	r24, r24
+ 12c:	90 e0       	ldi	r25, 0x00	; 0
+ 12e:	81 70       	andi	r24, 0x01	; 1
+ 130:	90 70       	andi	r25, 0x00	; 0
+ 132:	00 97       	sbiw	r24, 0x00	; 0
+ 134:	79 f4       	brne	.+30     	; 0x154 <main+0xd2>
+		{
+			PORTB|=(1<<1);
+ 136:	a8 e3       	ldi	r26, 0x38	; 56
+ 138:	b0 e0       	ldi	r27, 0x00	; 0
+ 13a:	e8 e3       	ldi	r30, 0x38	; 56
+ 13c:	f0 e0       	ldi	r31, 0x00	; 0
+ 13e:	80 81       	ld	r24, Z
+ 140:	82 60       	ori	r24, 0x02	; 2
+ 142:	8c 93       	st	X, r24
+			PORTB &=~(1<<0);
+ 144:	a8 e3       	ldi	r26, 0x38	; 56
+ 146:	b0 e0       	ldi	r27, 0x00	; 0
+ 148:	e8 e3       	ldi	r30, 0x38	; 56
+ 14a:	f0 e0       	ldi	r31, 0x00	; 0
+ 14c:	80 81       	ld	r24, Z
+ 14e:	8e 7f       	andi	r24, 0xFE	; 254
+ 150:	8c 93       	st	X, r24
+ 152:	cf cf       	rjmp	.-98     	; 0xf2 <main+0x70>
+		}
+		else if(((PINA>>2)&1)==0)
+ 154:	e9 e3       	ldi	r30, 0x39	; 57
+ 156:	f0 e0       	ldi	r31, 0x00	; 0
+ 158:	80 81       	ld	r24, Z
+ 15a:	86 95       	lsr	r24
+ 15c:	86 95       	lsr	r24
+ 15e:	88 2f       	mov	r24, r24
+ 160:	90 e0       	ldi	r25, 0x00	; 0
+ 162:	81 70       	andi	r24, 0x01	; 1
+ 164:	90 70       	andi	r25, 0x00	; 0
+ 166:	00 97       	sbiw	r24, 0x00	; 0
+ 168:	21 f6       	brne	.-120    	; 0xf2 <main+0x70>
+		{
+			PORTB|=(1<<1);
+ 16a:	a8 e3       	ldi	r26, 0x38	; 56
+ 16c:	b0 e0       	ldi	r27, 0x00	; 0
+ 16e:	e8 e3       	ldi	r30, 0x38	; 56
+ 170:	f0 e0       	ldi	r31, 0x00	; 0
+ 172:	80 81       	ld	r24, Z
+ 174:	82 60       	ori	r24, 0x02	; 2
+ 176:	8c 93       	st	X, r24
+			PORTB|=(1<<0);
+ 178:	a8 e3       	ldi	r26, 0x38	; 56
+ 17a:	b0 e0       	ldi	r27, 0x00	; 0
+ 17c:	e8 e3       	ldi	r30, 0x38	; 56
+ 17e:	f0 e0       	ldi	r31, 0x00	; 0
+ 180:	80 81       	ld	r24, Z
+ 182:	81 60       	ori	r24, 0x01	; 1
+ 184:	8c 93       	st	X, r24
+ 186:	b5 cf       	rjmp	.-150    	; 0xf2 <main+0x70>
+
+00000188 <_exit>:
+ 188:	f8 94       	cli
+
+0000018a <__stop_program>:
+ 18a:	ff cf       	rjmp	.-2      	; 0x18a <__stop_program>
