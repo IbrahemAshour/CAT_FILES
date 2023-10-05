@@ -1,83 +1,55 @@
 /*
- * DIO_config.h
+ * DIO_int.h
  *
  *  Created on: Oct 3, 2023
  *      Author: Alaraby
  */
-#ifndef  DIO_CONFIG_H_
-#define  DIO_CONFIG_H_
+#ifndef  DIO_INT_H_
+#define  DIO_INT_H_
 
-#define PORTA_PIN0_DIR INPUT
-#define PORTA_PIN1_DIR INPUT
-#define PORTA_PIN2_DIR OUTPUT
-#define PORTA_PIN3_DIR OUTPUT
-#define PORTA_PIN4_DIR INPUT
-#define PORTA_PIN5_DIR INPUT
-#define PORTA_PIN6_DIR OUTPUT
-#define PORTA_PIN7_DIR INPUT
+#define DIO_u8PORTA 0
+#define DIO_u8PORTB 1
+#define DIO_u8PORTC 2
+#define DIO_u8PORTD 3
 
-#define PORTB_PIN0_DIR INPUT
-#define PORTB_PIN1_DIR INPUT
-#define PORTB_PIN2_DIR OUTPUT
-#define PORTB_PIN3_DIR OUTPUT
-#define PORTB_PIN4_DIR INPUT
-#define PORTB_PIN5_DIR INPUT
-#define PORTB_PIN6_DIR OUTPUT
-#define PORTB_PIN7_DIR INPUT
+#define DIO_u8PIN0  0
+#define DIO_u8PIN1  1
+#define DIO_u8PIN2  2
+#define DIO_u8PIN3  3
+#define DIO_u8PIN4  4
+#define DIO_u8PIN5  5
+#define DIO_u8PIN6  6
+#define DIO_u8PIN7  7
 
-#define PORTC_PIN0_DIR INPUT
-#define PORTC_PIN1_DIR INPUT
-#define PORTC_PIN2_DIR OUTPUT
-#define PORTC_PIN3_DIR OUTPUT
-#define PORTC_PIN4_DIR INPUT
-#define PORTC_PIN5_DIR INPUT
-#define PORTC_PIN6_DIR OUTPUT
-#define PORTC_PIN7_DIR INPUT
+#define DIO_u8PIN0	0
+#define DIO_u8PIN1	1
+#define DIO_u8PIN2	2
+#define DIO_u8PIN3	3
+#define DIO_u8PIN4	4
+#define DIO_u8PIN5	5
+#define DIO_u8PIN6	6
+#define DIO_u8PIN7	7
 
-#define PORTD_PIN0_DIR INPUT
-#define PORTD_PIN1_DIR INPUT
-#define PORTD_PIN2_DIR OUTPUT
-#define PORTD_PIN3_DIR OUTPUT
-#define PORTD_PIN4_DIR INPUT
-#define PORTD_PIN5_DIR INPUT
-#define PORTD_PIN6_DIR OUTPUT
-#define PORTD_PIN7_DIR INPUT
+#define DIO_u8OUTPUT 1
+#define DIO_u8INPUT 0
 
-#define PORTA_PIN0_VAL LOW
-#define PORTA_PIN1_VAL LOW
-#define PORTA_PIN2_VAL HIGH
-#define PORTA_PIN3_VAL FLOAT
-#define PORTA_PIN4_VAL HIGH
-#define PORTA_PIN5_VAL PULLUP
-#define PORTA_PIN6_VAL PULLUP
-#define PORTA_PIN7_VAL FLOAT
+#define DIO_u8HIGH 1
+#define DIO_u8LOW 0
+#define DIO_u8FLOAT 0
+#define DIO_u8PULLUP 1
 
-#define PORTB_PIN0_VAL LOW
-#define PORTB_PIN1_VAL LOW
-#define PORTB_PIN2_VAL HIGH
-#define PORTB_PIN3_VAL FLOAT
-#define PORTB_PIN4_VAL HIGH
-#define PORTB_PIN5_VAL PULLUP
-#define PORTB_PIN6_VAL PULLUP
-#define PORTB_PIN7_VAL FLOAT
+ES_t DIO_enuInit(void);
 
-#define PORTC_PIN0_VAL LOW
-#define PORTC_PIN1_VAL LOW
-#define PORTC_PIN2_VAL HIGH
-#define PORTC_PIN3_VAL FLOAT
-#define PORTC_PIN4_VAL HIGH
-#define PORTC_PIN5_VAL PULLUP
-#define PORTC_PIN6_VAL PULLUP
-#define PORTC_PIN7_VAL FLOAT
+ES_t DIO_enuSet_PortValue(u8 copy_u8PortId,u8 copy_u8PortValue);
+ES_t DIO_enuSet_PortDirection(u8 copy_u8PortId,u8 copy_u8PortValue);
+ES_t DIO_enuget_PortValue(u8 copy_u8PortId,u8 *copy_pu8PortValue);
+ES_t DIO_enuToggle_PortValue(u8 copy_u8PortId);
 
-#define PORTD_PIN0_VAL LOW
-#define PORTD_PIN1_VAL LOW
-#define PORTD_PIN2_VAL HIGH
-#define PORTD_PIN3_VAL FLOAT
-#define PORTD_PIN4_VAL HIGH
-#define PORTD_PIN5_VAL PULLUP
-#define PORTD_PIN6_VAL PULLUP
-#define PORTD_PIN7_VAL FLOAT
+ES_t DIO_enuSet_PinValue(u8 copy_u8PortId,u8 copy_u8PinId,u8 copy_u8PinValue);
+ES_t DIO_enuSet_PinDirection(u8 copy_u8PortId,u8 copy_u8PinId,u8 copy_u8PinValue);
+ES_t DIO_enuget_PinValue(u8 copy_u8PortId,u8 copy_u8PinId,u8 *copy_pu8PinValue);
+ES_t DIO_enuToggle_PinValue(u8 copy_u8PortId,u8 copy_u8PinId);
+
+
 
 #endif
-
