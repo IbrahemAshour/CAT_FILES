@@ -15,6 +15,8 @@
 #define FLOAT  0
 #define PULLUP 1
 
+#define DIO_BIT_MUSK 1
+
 #define DIO_PORTA 0
 #define DIO_PORTB 1
 #define DIO_PORTC 2
