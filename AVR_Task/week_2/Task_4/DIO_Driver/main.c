@@ -25,6 +25,7 @@ int main(void)
 		segment_counter++;
 		}
 	}
+	
 	return 0;
 }
 
