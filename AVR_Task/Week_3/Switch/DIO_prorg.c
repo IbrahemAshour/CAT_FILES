@@ -249,7 +249,7 @@ ES_t DIO_enuget_PinValue(u8 copy_u8PortId,u8 copy_u8PinId,u8 *copy_pu8PinValue)
 
 {
 	ES_t Local_enuErrorState = ES_NOK;
-	if(copy_pu8PinValue==NULL){
+	if(copy_pu8PinValue!=NULL){
 	if(copy_u8PortId <= DIO_PORTD && copy_u8PinId <= DIO_PIN7 )
 		{
 		  switch(copy_u8PortId)
