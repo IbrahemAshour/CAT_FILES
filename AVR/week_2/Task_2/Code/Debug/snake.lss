@@ -1,0 +1,262 @@
+
+snake.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000001aa  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         0000000a  00800060  000001aa  0000021e  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .stab         00000438  00000000  00000000  00000228  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  3 .stabstr      0000071d  00000000  00000000  00000660  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   8:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  10:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  14:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  18:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  1c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  20:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  24:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  28:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  2c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  30:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  34:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  38:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  3c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  40:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  44:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  48:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  4c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  50:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	ea ea       	ldi	r30, 0xAA	; 170
+  68:	f1 e0       	ldi	r31, 0x01	; 1
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <.do_copy_data_start>
+
+0000006c <.do_copy_data_loop>:
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+
+00000070 <.do_copy_data_start>:
+  70:	aa 36       	cpi	r26, 0x6A	; 106
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <.do_copy_data_loop>
+  76:	0e 94 41 00 	call	0x82	; 0x82 <main>
+  7a:	0c 94 d3 00 	jmp	0x1a6	; 0x1a6 <_exit>
+
+0000007e <__bad_interrupt>:
+  7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000082 <main>:
+
+#define DDRD   *((volatile u8*)0x31)
+#define PORTD  *((volatile u8*)0x32)
+#define PIND   *((volatile u8*)0x30)
+int main()
+{
+  82:	df 93       	push	r29
+  84:	cf 93       	push	r28
+  86:	cd b7       	in	r28, 0x3d	; 61
+  88:	de b7       	in	r29, 0x3e	; 62
+  8a:	60 97       	sbiw	r28, 0x10	; 16
+  8c:	0f b6       	in	r0, 0x3f	; 63
+  8e:	f8 94       	cli
+  90:	de bf       	out	0x3e, r29	; 62
+  92:	0f be       	out	0x3f, r0	; 63
+  94:	cd bf       	out	0x3d, r28	; 61
+
+	DDRA =0;
+  96:	ea e3       	ldi	r30, 0x3A	; 58
+  98:	f0 e0       	ldi	r31, 0x00	; 0
+  9a:	10 82       	st	Z, r1
+	PORTA=0XFF;
+  9c:	eb e3       	ldi	r30, 0x3B	; 59
+  9e:	f0 e0       	ldi	r31, 0x00	; 0
+  a0:	8f ef       	ldi	r24, 0xFF	; 255
+  a2:	80 83       	st	Z, r24
+	DDRC=0xff;
+  a4:	e4 e3       	ldi	r30, 0x34	; 52
+  a6:	f0 e0       	ldi	r31, 0x00	; 0
+  a8:	8f ef       	ldi	r24, 0xFF	; 255
+  aa:	80 83       	st	Z, r24
+	PORTC=0;
+  ac:	e5 e3       	ldi	r30, 0x35	; 53
+  ae:	f0 e0       	ldi	r31, 0x00	; 0
+  b0:	10 82       	st	Z, r1
+
+	u8 Segment[]={0x3F,0x06,0x5B,
+				  0x4F,0x66,0x6D,0x7D,
+				  0x07,0x7F,0x6F
+				 },Counter=0;
+  b2:	ce 01       	movw	r24, r28
+  b4:	02 96       	adiw	r24, 0x02	; 2
+  b6:	9d 87       	std	Y+13, r25	; 0x0d
+  b8:	8c 87       	std	Y+12, r24	; 0x0c
+  ba:	e0 e6       	ldi	r30, 0x60	; 96
+  bc:	f0 e0       	ldi	r31, 0x00	; 0
+  be:	ff 87       	std	Y+15, r31	; 0x0f
+  c0:	ee 87       	std	Y+14, r30	; 0x0e
+  c2:	fa e0       	ldi	r31, 0x0A	; 10
+  c4:	f8 8b       	std	Y+16, r31	; 0x10
+  c6:	ee 85       	ldd	r30, Y+14	; 0x0e
+  c8:	ff 85       	ldd	r31, Y+15	; 0x0f
+  ca:	00 80       	ld	r0, Z
+  cc:	8e 85       	ldd	r24, Y+14	; 0x0e
+  ce:	9f 85       	ldd	r25, Y+15	; 0x0f
+  d0:	01 96       	adiw	r24, 0x01	; 1
+  d2:	9f 87       	std	Y+15, r25	; 0x0f
+  d4:	8e 87       	std	Y+14, r24	; 0x0e
+  d6:	ec 85       	ldd	r30, Y+12	; 0x0c
+  d8:	fd 85       	ldd	r31, Y+13	; 0x0d
+  da:	00 82       	st	Z, r0
+  dc:	8c 85       	ldd	r24, Y+12	; 0x0c
+  de:	9d 85       	ldd	r25, Y+13	; 0x0d
+  e0:	01 96       	adiw	r24, 0x01	; 1
+  e2:	9d 87       	std	Y+13, r25	; 0x0d
+  e4:	8c 87       	std	Y+12, r24	; 0x0c
+  e6:	98 89       	ldd	r25, Y+16	; 0x10
+  e8:	91 50       	subi	r25, 0x01	; 1
+  ea:	98 8b       	std	Y+16, r25	; 0x10
+  ec:	e8 89       	ldd	r30, Y+16	; 0x10
+  ee:	ee 23       	and	r30, r30
+  f0:	51 f7       	brne	.-44     	; 0xc6 <main+0x44>
+  f2:	19 82       	std	Y+1, r1	; 0x01
+	PORTC=Segment[0];
+  f4:	e5 e3       	ldi	r30, 0x35	; 53
+  f6:	f0 e0       	ldi	r31, 0x00	; 0
+  f8:	8a 81       	ldd	r24, Y+2	; 0x02
+  fa:	80 83       	st	Z, r24
+	while(1)
+	{
+		if(((PINA>>0)&1)==0)
+  fc:	e9 e3       	ldi	r30, 0x39	; 57
+  fe:	f0 e0       	ldi	r31, 0x00	; 0
+ 100:	80 81       	ld	r24, Z
+ 102:	88 2f       	mov	r24, r24
+ 104:	90 e0       	ldi	r25, 0x00	; 0
+ 106:	81 70       	andi	r24, 0x01	; 1
+ 108:	90 70       	andi	r25, 0x00	; 0
+ 10a:	00 97       	sbiw	r24, 0x00	; 0
+ 10c:	e9 f4       	brne	.+58     	; 0x148 <main+0xc6>
+		{
+			Counter++;
+ 10e:	89 81       	ldd	r24, Y+1	; 0x01
+ 110:	8f 5f       	subi	r24, 0xFF	; 255
+ 112:	89 83       	std	Y+1, r24	; 0x01
+			if(Counter>=9)
+ 114:	89 81       	ldd	r24, Y+1	; 0x01
+ 116:	89 30       	cpi	r24, 0x09	; 9
+ 118:	10 f0       	brcs	.+4      	; 0x11e <main+0x9c>
+	        {
+				Counter=9;
+ 11a:	89 e0       	ldi	r24, 0x09	; 9
+ 11c:	89 83       	std	Y+1, r24	; 0x01
+			}
+			PORTC=Segment[Counter];
+ 11e:	a5 e3       	ldi	r26, 0x35	; 53
+ 120:	b0 e0       	ldi	r27, 0x00	; 0
+ 122:	89 81       	ldd	r24, Y+1	; 0x01
+ 124:	28 2f       	mov	r18, r24
+ 126:	30 e0       	ldi	r19, 0x00	; 0
+ 128:	ce 01       	movw	r24, r28
+ 12a:	02 96       	adiw	r24, 0x02	; 2
+ 12c:	fc 01       	movw	r30, r24
+ 12e:	e2 0f       	add	r30, r18
+ 130:	f3 1f       	adc	r31, r19
+ 132:	80 81       	ld	r24, Z
+ 134:	8c 93       	st	X, r24
+			while(((PINA>>0)&1)==0);
+ 136:	e9 e3       	ldi	r30, 0x39	; 57
+ 138:	f0 e0       	ldi	r31, 0x00	; 0
+ 13a:	80 81       	ld	r24, Z
+ 13c:	88 2f       	mov	r24, r24
+ 13e:	90 e0       	ldi	r25, 0x00	; 0
+ 140:	81 70       	andi	r24, 0x01	; 1
+ 142:	90 70       	andi	r25, 0x00	; 0
+ 144:	00 97       	sbiw	r24, 0x00	; 0
+ 146:	b9 f3       	breq	.-18     	; 0x136 <main+0xb4>
+		}
+		if(((PINA>>1)&1)==0)
+ 148:	e9 e3       	ldi	r30, 0x39	; 57
+ 14a:	f0 e0       	ldi	r31, 0x00	; 0
+ 14c:	80 81       	ld	r24, Z
+ 14e:	86 95       	lsr	r24
+ 150:	88 2f       	mov	r24, r24
+ 152:	90 e0       	ldi	r25, 0x00	; 0
+ 154:	81 70       	andi	r24, 0x01	; 1
+ 156:	90 70       	andi	r25, 0x00	; 0
+ 158:	00 97       	sbiw	r24, 0x00	; 0
+ 15a:	c9 f4       	brne	.+50     	; 0x18e <main+0x10c>
+		{
+
+
+            Counter--;
+ 15c:	89 81       	ldd	r24, Y+1	; 0x01
+ 15e:	81 50       	subi	r24, 0x01	; 1
+ 160:	89 83       	std	Y+1, r24	; 0x01
+			PORTC=Segment[Counter];
+ 162:	a5 e3       	ldi	r26, 0x35	; 53
+ 164:	b0 e0       	ldi	r27, 0x00	; 0
+ 166:	89 81       	ldd	r24, Y+1	; 0x01
+ 168:	28 2f       	mov	r18, r24
+ 16a:	30 e0       	ldi	r19, 0x00	; 0
+ 16c:	ce 01       	movw	r24, r28
+ 16e:	02 96       	adiw	r24, 0x02	; 2
+ 170:	fc 01       	movw	r30, r24
+ 172:	e2 0f       	add	r30, r18
+ 174:	f3 1f       	adc	r31, r19
+ 176:	80 81       	ld	r24, Z
+ 178:	8c 93       	st	X, r24
+			while(((PINA>>1)&1)==0);
+ 17a:	e9 e3       	ldi	r30, 0x39	; 57
+ 17c:	f0 e0       	ldi	r31, 0x00	; 0
+ 17e:	80 81       	ld	r24, Z
+ 180:	86 95       	lsr	r24
+ 182:	88 2f       	mov	r24, r24
+ 184:	90 e0       	ldi	r25, 0x00	; 0
+ 186:	81 70       	andi	r24, 0x01	; 1
+ 188:	90 70       	andi	r25, 0x00	; 0
+ 18a:	00 97       	sbiw	r24, 0x00	; 0
+ 18c:	b1 f3       	breq	.-20     	; 0x17a <main+0xf8>
+		}
+		if(Counter==0||Counter<=0)
+ 18e:	89 81       	ldd	r24, Y+1	; 0x01
+ 190:	88 23       	and	r24, r24
+ 192:	21 f0       	breq	.+8      	; 0x19c <main+0x11a>
+ 194:	89 81       	ldd	r24, Y+1	; 0x01
+ 196:	88 23       	and	r24, r24
+ 198:	09 f0       	breq	.+2      	; 0x19c <main+0x11a>
+ 19a:	b0 cf       	rjmp	.-160    	; 0xfc <main+0x7a>
+		{
+			PORTC=Segment[0];
+ 19c:	e5 e3       	ldi	r30, 0x35	; 53
+ 19e:	f0 e0       	ldi	r31, 0x00	; 0
+ 1a0:	8a 81       	ldd	r24, Y+2	; 0x02
+ 1a2:	80 83       	st	Z, r24
+ 1a4:	ab cf       	rjmp	.-170    	; 0xfc <main+0x7a>
+
+000001a6 <_exit>:
+ 1a6:	f8 94       	cli
+
+000001a8 <__stop_program>:
+ 1a8:	ff cf       	rjmp	.-2      	; 0x1a8 <__stop_program>
