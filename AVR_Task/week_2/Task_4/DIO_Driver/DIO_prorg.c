@@ -3,10 +3,11 @@
 */
 
 #include "stdTypes.h"
-#include "Error_state.h"
-
+#include "Error_State.h"
+#include "DIO_int.h"
 #include "DIO_private.h"
 #include "DIO_config.h"
+
 
 ES_t DIO_enuInit(void)
 {
@@ -181,19 +182,19 @@ ES_t DIO_enuSet_PinValue(u8 copy_u8PortId,u8 copy_u8PinId,u8 copy_u8PinValue)
 		switch(copy_u8PortId)
 		{
 			case(DIO_PORTA):
-			PORTA&=~(1<<copy_u8PinId);
+			PORTA&=~(DIO_BIT_MUSK<<copy_u8PinId);
 			PORTA|=(copy_u8PinValue<<copy_u8PinId);
 			break;
 			case(DIO_PORTB):
-			PORTB&=~(1<<copy_u8PinId);
+			PORTB&=~(DIO_BIT_MUSK<<copy_u8PinId);
 			PORTB|=(copy_u8PinValue<<copy_u8PinId);
 			break;
 			case(DIO_PORTC):
-			PORTC&=~(1<<copy_u8PinId);
+			PORTC&=~(DIO_BIT_MUSK<<copy_u8PinId);
 			PORTC|=(copy_u8PinValue<<copy_u8PinId);
 			break;
 			case(DIO_PORTD):
-			PORTD&=~(1<<copy_u8PinId);
+			PORTD&=~(DIO_BIT_MUSK<<copy_u8PinId);
 			PORTD|=(copy_u8PinValue<<copy_u8PinId);
 			break;
 		}
@@ -217,19 +218,19 @@ ES_t DIO_enuSet_PinDirection(u8 copy_u8PortId,u8 copy_u8PinId,u8 copy_u8PinValue
 		switch(copy_u8PortId)
 		{
 			case(DIO_PORTA):
-				DDRA&=~(1<<copy_u8PinId);
+				DDRA&=~(DIO_BIT_MUSK<<copy_u8PinId);
 				DDRA|=(copy_u8PinValue<<copy_u8PinId);
 			break;
 			case(DIO_PORTB):
-				DDRB&=~(1<<copy_u8PinId);
+				DDRB&=~(DIO_BIT_MUSK<<copy_u8PinId);
 				DDRB|=(copy_u8PinValue<<copy_u8PinId);
 			break;
 			case(DIO_PORTC):
-				DDRC&=~(1<<copy_u8PinId);
+				DDRC&=~(DIO_BIT_MUSK<<copy_u8PinId);
 				DDRC|=(copy_u8PinValue<<copy_u8PinId);
 			break;
 			case(DIO_PORTD):
-				DDRD&=~(1<<copy_u8PinId);
+				DDRD&=~(DIO_BIT_MUSK<<copy_u8PinId);
 				DDRD|=(copy_u8PinValue<<copy_u8PinId);
 			break;
 		}
@@ -248,21 +249,22 @@ ES_t DIO_enuget_PinValue(u8 copy_u8PortId,u8 copy_u8PinId,u8 *copy_pu8PinValue)
 
 {
 	ES_t Local_enuErrorState = ES_NOK;
+	if(copy_pu8PinValue!=NULL){
 	if(copy_u8PortId <= DIO_PORTD && copy_u8PinId <= DIO_PIN7 )
 		{
 		  switch(copy_u8PortId)
 		{
 		 case(DIO_PORTA):
-			*copy_pu8PinValue=((PINA>>copy_u8PinId)&1);
+			*copy_pu8PinValue=((PINA>>copy_u8PinId)&DIO_BIT_MUSK);
 		    break;
 		 case(DIO_PORTB):
-			*copy_pu8PinValue=((PINB>>copy_u8PinId)&1);
+			*copy_pu8PinValue=((PINB>>copy_u8PinId)&DIO_BIT_MUSK);
 		    break;
 		 case(DIO_PORTC):
-			*copy_pu8PinValue=((PINC>>copy_u8PinId)&1);
+			*copy_pu8PinValue=((PINC>>copy_u8PinId)&DIO_BIT_MUSK);
 			break;
 		 case(DIO_PORTD):
-			*copy_pu8PinValue=((PIND>>copy_u8PinId)&1);
+			*copy_pu8PinValue=((PIND>>copy_u8PinId)&DIO_BIT_MUSK);
 			break;
 		}
 		Local_enuErrorState=ES_OK;
@@ -271,6 +273,11 @@ ES_t DIO_enuget_PinValue(u8 copy_u8PortId,u8 copy_u8PinId,u8 *copy_pu8PinValue)
 		{
 			Local_enuErrorState=ES_OUT_OF_RANGE;
 		}
+	}
+	else
+	{
+		Local_enuErrorState=ES_NULL_POINTER;
+	}
 
 
 	return Local_enuErrorState;
@@ -284,16 +291,16 @@ ES_t DIO_enuToggle_PinValue(u8 copy_u8PortId,u8 copy_u8PinId)
 		switch(copy_u8PortId)
 		{
 		case(DIO_PORTA):
-		  PINA^=(1<<copy_u8PinId);
+		  PORTA^=(DIO_BIT_MUSK<<copy_u8PinId);
 		  break;
 		case(DIO_PORTB):
-		 PINB^=(1<<copy_u8PinId);
+		 PORTB^=(DIO_BIT_MUSK<<copy_u8PinId);
 		  break;
 		case(DIO_PORTC):
-		 PINC^=(1<<copy_u8PinId);
+		 PORTC^=(DIO_BIT_MUSK<<copy_u8PinId);
 		  break;
 		case(DIO_PORTD):
-		 PIND^=(1<<copy_u8PinId);
+		 PORTD^=(DIO_BIT_MUSK<<copy_u8PinId);
 		  break;
 		}
 		Local_enuErrorState=ES_OK;

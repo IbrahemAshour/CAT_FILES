@@ -5,26 +5,14 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../DIO_prorg.c \
-../LED_config.c \
-../LED_prog.c \
-../Switch_config.c \
-../Switch_prog.c \
 ../main.c 
 
 OBJS += \
 ./DIO_prorg.o \
-./LED_config.o \
-./LED_prog.o \
-./Switch_config.o \
-./Switch_prog.o \
 ./main.o 
 
 C_DEPS += \
 ./DIO_prorg.d \
-./LED_config.d \
-./LED_prog.d \
-./Switch_config.d \
-./Switch_prog.d \
 ./main.d 
 
 
